@@ -1,0 +1,35 @@
+# Cloudflare Pages + Pages Functions configuration
+name = "ashe-international-web"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+[vars]
+APP_URL = "https://asheinternational.org"
+MAIL_FROM = "info@asheinternational.org"
+PESAPAL_ENV = "live"
+
+# Secrets (set with `wrangler pages secret put NAME`, never commit):
+#   JWT_SECRET, PESAPAL_CONSUMER_KEY, PESAPAL_CONSUMER_SECRET
+
+# ---- Bindings: create the resources, then uncomment and paste the real IDs ----
+
+# D1 relational database (users, roles, projects, donations, withdrawals, ...)
+# Create:  wrangler d1 create ashe-db
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "ashe-db"
+# database_id = "REPLACE_WITH_D1_ID"
+# migrations_dir = "migrations"
+
+# R2 storage for public uploads and private files
+# Create:  wrangler r2 bucket create ashe-uploads
+# [[r2_buckets]]
+# binding = "UPLOADS"
+# bucket_name = "ashe-uploads"
+
+# KV for sessions, rate limits and cached site content
+# Create:  wrangler kv namespace create ASHE_KV
+# [[kv_namespaces]]
+# binding = "KV"
+# id = "REPLACE_WITH_KV_ID"

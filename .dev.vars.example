@@ -1,0 +1,7 @@
+# Copy to .dev.vars for local Pages Functions development. Never commit real values.
+JWT_SECRET=change-me-at-least-32-characters-long
+APP_URL=http://localhost:8788
+MAIL_FROM=info@asheinternational.org
+PESAPAL_CONSUMER_KEY=
+PESAPAL_CONSUMER_SECRET=
+PESAPAL_ENV=sandbox
