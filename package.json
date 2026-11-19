@@ -9,9 +9,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "cf:dev": "npm run build && wrangler pages dev dist",
-    "cf:deploy": "npm run build && wrangler pages deploy dist --project-name ashe-international-web"
+    "cf:deploy": "npm run build && wrangler pages deploy dist --project-name ashe-international-web",
+    "db:migrate": "wrangler d1 migrations apply ashe-db --remote"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
