@@ -1,38 +1,29 @@
-import { useCallback, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
-import Navbar from './components/Navbar.jsx';
-import Hero from './components/Hero.jsx';
-import KineticTicker from './components/KineticTicker.jsx';
-import HighlightStrip from './components/HighlightStrip.jsx';
-import Programs from './components/Programs.jsx';
-import ImpactGallery from './components/ImpactGallery.jsx';
-import FAQ from './components/FAQ.jsx';
-import Footer, { CtaBand } from './components/Footer.jsx';
-import DonateModal from './components/DonateModal.jsx';
+import { Link, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './lib/auth.jsx';
+import Home from './pages/Home.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import { Login, Reset, Signup } from './pages/Auth.jsx';
 
-function Home() {
-  const [donate, setDonate] = useState(false);
-  const open = useCallback(() => setDonate(true), []);
-  const close = useCallback(() => setDonate(false), []);
-  return (
-    <>
-      <Navbar onDonate={open} />
-      <main>
-        <Hero onDonate={open} />
-        <KineticTicker />
-        <HighlightStrip />
-        <Programs />
-        <ImpactGallery />
-        <FAQ />
-        <CtaBand onDonate={open} />
-      </main>
-      <Footer />
-      <DonateModal open={donate} onClose={close} />
-    </>
-  );
-}
+const NotFound = () => (
+  <main className='grid min-h-screen place-items-center p-6 text-center'>
+    <div><h1 className='text-7xl'>Page not found</h1><Link to='/' className='mt-4 inline-block font-bold underline'>Back to home</Link></div>
+  </main>
+);
 
-// Routes for auth and dashboards (ported API) are added in the next step.
 export default function App() {
-  return <MotionConfig reducedMotion='user'><Home /></MotionConfig>;
+  return (
+    <MotionConfig reducedMotion='user'>
+      <AuthProvider>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/reset-password' element={<Reset />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
+    </MotionConfig>
+  );
 }
