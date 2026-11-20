@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, type TEXT NOT NULL CHECK (type IN ('pledge','volunteer','partner','contact')), name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT, organization TEXT, amount REAL, currency TEXT, method TEXT, message TEXT, page TEXT, sheet_synced INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE INDEX IF NOT EXISTS idx_leads_type ON leads(type, created_at);
