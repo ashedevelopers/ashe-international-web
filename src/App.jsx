@@ -1,24 +1,38 @@
-import { Routes, Route } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import { MotionConfig } from 'framer-motion';
+import Navbar from './components/Navbar.jsx';
+import Hero from './components/Hero.jsx';
+import KineticTicker from './components/KineticTicker.jsx';
+import HighlightStrip from './components/HighlightStrip.jsx';
+import Programs from './components/Programs.jsx';
+import ImpactGallery from './components/ImpactGallery.jsx';
+import FAQ from './components/FAQ.jsx';
+import Footer, { CtaBand } from './components/Footer.jsx';
+import DonateModal from './components/DonateModal.jsx';
 
-// Placeholder shell. Page sections are built in Step 2 (see README blueprint).
 function Home() {
+  const [donate, setDonate] = useState(false);
+  const open = useCallback(() => setDonate(true), []);
+  const close = useCallback(() => setDonate(false), []);
   return (
-    <main className="grid min-h-screen place-items-center bg-ashe-green px-6 text-center text-white">
-      <div>
-        <p className="mb-4 text-sm uppercase tracking-widest text-ashe-yellow">Action For Save Humanity Emergency</p>
-        <h1 className="text-kinetic font-bold">ASHE</h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-white/80">
-          Empowering refugees and host communities in Uganda. Platform scaffold is live.
-        </p>
-      </div>
-    </main>
+    <>
+      <Navbar onDonate={open} />
+      <main>
+        <Hero onDonate={open} />
+        <KineticTicker />
+        <HighlightStrip />
+        <Programs />
+        <ImpactGallery />
+        <FAQ />
+        <CtaBand onDonate={open} />
+      </main>
+      <Footer />
+      <DonateModal open={donate} onClose={close} />
+    </>
   );
 }
 
+// Routes for auth and dashboards (ported API) are added in the next step.
 export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
-  );
+  return <MotionConfig reducedMotion='user'><Home /></MotionConfig>;
 }

@@ -4,11 +4,11 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-white font-sans text-ashe-ink antialiased; }
-  h1, h2, h3 { @apply font-display; }
+  body { @apply bg-ashe-cream font-sans text-ashe-ink antialiased; }
+  h1, h2, h3 { @apply font-display font-normal uppercase leading-[.95]; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-marquee { animation: none; }
+  .animate-marquee, .animate-spin-slow { animation: none; }
 }

@@ -8,23 +8,23 @@ pages_build_output_dir = "dist"
 APP_URL = "https://asheinternational.org"
 MAIL_FROM = "info@asheinternational.org"
 PESAPAL_ENV = "live"
+# Google Sheet "ASHE Website Leads & Pledges" (not a secret)
+SHEET_ID = "1dJxqVoGKLtavyjaRMd1jcYs9BkpqDny6DM7ZJtXPro8"
 
 # Secrets (set with `wrangler pages secret put NAME`, never commit):
-#   JWT_SECRET (32+ chars), PESAPAL_CONSUMER_KEY, PESAPAL_CONSUMER_SECRET, RESEND_API_KEY (if using Resend)
+#   JWT_SECRET (32+ chars), GOOGLE_SERVICE_ACCOUNT_JSON, PESAPAL_CONSUMER_KEY, PESAPAL_CONSUMER_SECRET, RESEND_API_KEY
 
-# D1 relational database. Schema is already applied (see migrations/0001_init.sql).
 [[d1_databases]]
 binding = "DB"
 database_name = "ashe-db"
 database_id = "963a8b69-bc6f-440b-a500-eac22423ad39"
 migrations_dir = "migrations"
 
-# KV for rate limits, sessions and cached site content
 [[kv_namespaces]]
 binding = "KV"
 id = "41c7a42ff772485d997bb140ea18c490"
 
-# R2 storage for public uploads and private files (enable R2 in the dashboard first)
+# R2 storage for uploads (enable R2 in the dashboard first)
 # Create:  wrangler r2 bucket create ashe-uploads
 # [[r2_buckets]]
 # binding = "UPLOADS"
