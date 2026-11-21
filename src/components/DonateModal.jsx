@@ -10,8 +10,8 @@ const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 const post = (url, body) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 
 // Mobile Money gifts are charged through Nylon Pay (/api/pay/*). Bank/International pledges, partner
-// inquiries and volunteer signups are saved through /api/submit.
-export default function DonateModal({ open, onClose }) {
+// inquiries and volunteer signups are saved through /api/submit. projectId (optional) targets one campaign.
+export default function DonateModal({ open, onClose, projectId = null }) {
   const [intent, setIntent] = useState('Give');
   const [method, setMethod] = useState('Mobile Money');
   const [f, setF] = useState({ amount: '', currency: 'UGX', name: '', email: '', phone: '', organization: '', message: '', website: '' });
@@ -33,7 +33,7 @@ export default function DonateModal({ open, onClose }) {
   }, [open, onClose]);
 
   async function pay() {
-    const r = await post('/api/pay/start', { amount: f.amount, name: f.name, email: f.email, phone: f.phone, message: f.message, website: f.website });
+    const r = await post('/api/pay/start', { amount: f.amount, name: f.name, email: f.email, phone: f.phone, message: f.message, website: f.website, project_id: projectId });
     const j = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(j?.error?.message || 'Could not start the payment. Please try again.');
     setState('waiting');
@@ -52,7 +52,7 @@ export default function DonateModal({ open, onClose }) {
     try {
       if (momo) await pay();
       else {
-        const r = await post('/api/submit', { ...f, type: INTENTS[intent], method: give ? method : intent, page: window.location.pathname });
+        const r = await post('/api/submit', { ...f, type: INTENTS[intent], method: give ? method : intent, page: window.location.pathname, project_id: projectId });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(j?.error?.message || 'Something went wrong. Please try again.');
         setPaid(false); setState('done');
@@ -65,9 +65,9 @@ export default function DonateModal({ open, onClose }) {
       {open && (
         <motion.div className='fixed inset-0 z-50 flex items-end justify-center bg-black/60 md:items-center' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={(e) => e.target === e.currentTarget && onClose()} role='dialog' aria-modal='true' aria-label='Give or partner with ASHE'>
-          <motion.div className='max-h-[92vh] w-full max-w-[560px] overflow-auto rounded-t-[28px] bg-ashe-cream p-6 md:rounded-[28px]' initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}>
+          <motion.div className='max-h-[92vh] w-full max-w-[560px] overflow-auto rounded-t-[28px] bg-white p-6 md:rounded-[28px]' initial={{ y: 60, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 60, opacity: 0 }}>
             <div className='flex items-center justify-between'>
-              <h3 className='text-4xl'>Join ASHE</h3>
+              <h3 className='text-4xl'>{projectId ? 'Support this campaign' : 'Join ASHE'}</h3>
               <button onClick={onClose} aria-label='Close' className='rounded-full border-2 border-ashe-ink px-3 py-1.5 font-bold'>✕</button>
             </div>
             {state === 'done' ? (
@@ -79,7 +79,7 @@ export default function DonateModal({ open, onClose }) {
             ) : (
               <form onSubmit={submit}>
                 <div className='mt-3.5 grid grid-cols-3 gap-1.5' role='tablist'>
-                  {Object.keys(INTENTS).map((k) => <button type='button' key={k} role='tab' aria-selected={intent === k} onClick={() => setIntent(k)} className={`rounded-xl border-2 border-ashe-ink py-2 text-[13px] font-bold ${intent === k ? 'bg-ashe-ink text-ashe-cream' : ''}`}>{k}</button>)}
+                  {Object.keys(INTENTS).map((k) => <button type='button' key={k} role='tab' aria-selected={intent === k} onClick={() => setIntent(k)} className={`rounded-xl border-2 border-ashe-ink py-2 text-[13px] font-bold ${intent === k ? 'bg-ashe-ink text-white' : ''}`}>{k}</button>)}
                 </div>
                 {give && (
                   <>

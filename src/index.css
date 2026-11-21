@@ -4,11 +4,12 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { @apply bg-ashe-cream font-sans text-ashe-ink antialiased; }
+  body { @apply bg-white font-sans text-ashe-ink antialiased; }
   h1, h2, h3 { @apply font-display font-normal uppercase leading-[.95]; }
 }
 
+/* Brand motion (marquee, reveals, hero) always plays. Only the spinning badge is switched off for people who ask for less motion. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-marquee, .animate-spin-slow { animation: none; }
+  .animate-spin-slow { animation: none; }
 }

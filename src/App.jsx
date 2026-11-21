@@ -4,6 +4,7 @@ import { AuthProvider } from './lib/auth.jsx';
 import Home from './pages/Home.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
+import Campaign from './pages/Campaign.jsx';
 import { Login, Reset, Signup } from './pages/Auth.jsx';
 import { About, Contact, GalleryPage, PartnersPage, ProgramsPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
 import { Privacy, Terms } from './pages/Legal.jsx';
@@ -14,15 +15,17 @@ const NotFound = () => (
   </main>
 );
 
+// reducedMotion='never': the brand animations always play. Parallax-style effects (scroll skew, spinning badge) still switch off for people who ask for reduced motion.
 export default function App() {
   return (
-    <MotionConfig reducedMotion='user'>
+    <MotionConfig reducedMotion='never'>
       <AuthProvider>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/programs' element={<ProgramsPage />} />
           <Route path='/projects' element={<Projects />} />
+          <Route path='/c/:slug' element={<Campaign />} />
           <Route path='/partners' element={<PartnersPage />} />
           <Route path='/volunteer' element={<Volunteer />} />
           <Route path='/gallery' element={<GalleryPage />} />
