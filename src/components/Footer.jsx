@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FOOTER } from '../data/asheContent.js';
 import { PAGES, SITE } from '../data/site.js';
+import { useForceIn } from '../lib/motion.js';
 import { Button, Img } from './ui.jsx';
+
+const LIVE_LOGO = 'https://asheinternational.org/assets/ashe-logo-YTZ5ZteW.jpeg';
 
 export function CtaBand({ onDonate }) {
   return (
@@ -21,12 +24,15 @@ export function CtaBand({ onDonate }) {
 const col = 'text-[15px] hover:text-ashe-yellow';
 
 export default function Footer() {
+  const forced = useForceIn();
   return (
     <footer className='rounded-t-[32px] bg-ashe-deep px-5 pb-6 pt-9 text-white md:px-12 md:pt-14'>
       <div className='grid gap-8 md:grid-cols-4'>
         <div>
-          <p className='font-display text-3xl uppercase'>ASHE</p>
-          <p className='mt-1 text-sm opacity-80'>{SITE.full}</p>
+          <Link to='/' aria-label='ASHE home' className='inline-block rounded-2xl bg-white p-3'>
+            <img src='/images/logo.png' alt='ASHE: Action For Save Humanity in Emergency' className='h-12 w-auto md:h-14'
+              onError={(e) => { if (!e.currentTarget.dataset.fb) { e.currentTarget.dataset.fb = '1'; e.currentTarget.src = LIVE_LOGO; } }} />
+          </Link>
           <p className='mt-3 text-sm opacity-80'>Empowering refugees and host communities through training, partnerships and transparent fundraising.</p>
           <div className='mt-4 flex flex-wrap gap-2'>
             {SITE.socials.map((s) => <a key={s.l} href={s.u} target='_blank' rel='noopener noreferrer' className='rounded-full border border-white/40 px-3 py-1 text-xs font-bold hover:bg-white hover:text-ashe-deep'>{s.l}</a>)}
@@ -52,7 +58,7 @@ export default function Footer() {
         {FOOTER.cta.map((w, k) => (
           <div key={w} aria-hidden='true'>
             {[...w].map((c, i) => (
-              <motion.span key={i} className='inline-block' initial={{ opacity: 0, y: '60%' }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i + k * 5) * 0.05, duration: 0.6 }}>{c}</motion.span>
+              <motion.span key={i} className='inline-block' initial={{ opacity: 0, y: '60%' }} whileInView={{ opacity: 1, y: 0 }} animate={forced ? { opacity: 1, y: 0 } : undefined} viewport={{ once: true }} transition={{ delay: (i + k * 5) * 0.05, duration: 0.6 }}>{c}</motion.span>
             ))}
           </div>
         ))}
