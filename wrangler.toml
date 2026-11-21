@@ -7,12 +7,14 @@ pages_build_output_dir = "dist"
 [vars]
 APP_URL = "https://asheinternational.org"
 MAIL_FROM = "info@asheinternational.org"
-PESAPAL_ENV = "live"
 # Google Sheet "ASHE Website Leads & Pledges" (not a secret)
 SHEET_ID = "1dJxqVoGKLtavyjaRMd1jcYs9BkpqDny6DM7ZJtXPro8"
 
-# Secrets (set with `wrangler pages secret put NAME`, never commit):
-#   JWT_SECRET (32+ chars), GOOGLE_SERVICE_ACCOUNT_JSON, PESAPAL_CONSUMER_KEY, PESAPAL_CONSUMER_SECRET, RESEND_API_KEY
+# Secrets (Pages > Settings > Variables and Secrets, never commit):
+#   JWT_SECRET (32+ chars)
+#   NYLONPAY_API_KEY (npk_...), NYLONPAY_API_SECRET (nps_...), NYLONPAY_WEBHOOK_SECRET (separate nps_... webhook secret)
+#   GOOGLE_SERVICE_ACCOUNT_JSON, RESEND_API_KEY
+# Nylon Pay webhook URL to enter in the Nylon Pay dashboard: https://<your-domain>/api/pay/webhook
 
 [[d1_databases]]
 binding = "DB"

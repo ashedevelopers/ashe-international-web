@@ -13,6 +13,7 @@
     "db:migrate": "wrangler d1 migrations apply ashe-db --remote"
   },
   "dependencies": {
+    "@nile-squad/nylonpay-ts": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
