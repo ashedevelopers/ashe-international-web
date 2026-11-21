@@ -10,14 +10,15 @@ import FAQ from '../components/FAQ.jsx';
 import { CtaBand } from '../components/Footer.jsx';
 import { Sticker } from '../components/ui.jsx';
 
+// Original photo-led home design. "What makes ASHE different" (Pillars) and "Community impact" (clay gallery band) use the newer card design.
 function HomeBody() {
   const donate = useDonate();
   return (
     <>
       <Hero onDonate={donate} />
-      <Pillars />
       <KineticTicker />
       <HighlightStrip />
+      <Pillars />
       <Programs />
       <div className='relative mx-3.5 my-16 rounded-[32px] bg-ashe-clay py-8 md:mx-7'>
         <Sticker rotate={6} className='absolute right-4 top-3'>Gallery</Sticker>
