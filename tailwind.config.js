@@ -1,11 +1,11 @@
-/** ASHE brand tokens. Palette comes from the live site; tints are derived from it. */
+/** ASHE brand tokens. Palette comes from the live site; page background is pure white. */
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        ashe: { green: '#0E622A', deep: '#07401A', yellow: '#F9C61F', cream: '#FBF6E9', clay: '#E9B58A', mint: '#CFE9D3', ink: '#0F0F0F' },
+        ashe: { green: '#0E622A', deep: '#07401A', yellow: '#F9C61F', cream: '#FFFFFF', clay: '#E9B58A', mint: '#CFE9D3', ink: '#0F0F0F' },
       },
       fontFamily: {
         display: ['Anton', 'Impact', 'sans-serif'],

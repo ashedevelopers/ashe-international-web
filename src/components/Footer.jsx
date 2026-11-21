@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FOOTER, NAV } from '../data/asheContent.js';
+import { FOOTER } from '../data/asheContent.js';
+import { PAGES, SITE } from '../data/site.js';
 import { Button, Img } from './ui.jsx';
 
 export function CtaBand({ onDonate }) {
@@ -16,13 +18,37 @@ export function CtaBand({ onDonate }) {
   );
 }
 
+const col = 'text-[15px] hover:text-ashe-yellow';
+
 export default function Footer() {
   return (
     <footer className='rounded-t-[32px] bg-ashe-deep px-5 pb-6 pt-9 text-white md:px-12 md:pt-14'>
-      <nav className='flex flex-wrap gap-x-7 gap-y-1' aria-label='Footer'>
-        {NAV.map((n) => <a key={n.href} href={n.href} className='font-display text-[32px] uppercase hover:text-ashe-yellow'>{n.label}</a>)}
-      </nav>
-      <div className='my-7 font-display text-[clamp(70px,22vw,260px)] uppercase leading-[.9] text-ashe-yellow' aria-label={FOOTER.cta.join(' ')}>
+      <div className='grid gap-8 md:grid-cols-4'>
+        <div>
+          <p className='font-display text-3xl uppercase'>ASHE</p>
+          <p className='mt-1 text-sm opacity-80'>{SITE.full}</p>
+          <p className='mt-3 text-sm opacity-80'>Empowering refugees and host communities through training, partnerships and transparent fundraising.</p>
+          <div className='mt-4 flex flex-wrap gap-2'>
+            {SITE.socials.map((s) => <a key={s.l} href={s.u} target='_blank' rel='noopener noreferrer' className='rounded-full border border-white/40 px-3 py-1 text-xs font-bold hover:bg-white hover:text-ashe-deep'>{s.l}</a>)}
+          </div>
+        </div>
+        <nav aria-label='Explore'><h4 className='mb-2 font-display text-xl uppercase text-ashe-yellow'>Explore</h4>
+          <ul className='grid gap-1.5'>{PAGES.slice(0, 7).map((p) => <li key={p.to}><Link className={col} to={p.to}>{p.l}</Link></li>)}</ul></nav>
+        <nav aria-label='Get involved'><h4 className='mb-2 font-display text-xl uppercase text-ashe-yellow'>Get involved</h4>
+          <ul className='grid gap-1.5'>
+            <li><Link className={col} to='/start-fundraiser'>Start a Fundraiser</Link></li>
+            <li><Link className={col} to='/volunteer'>Become a Volunteer</Link></li>
+            <li><Link className={col} to='/partners'>Become a Partner</Link></li>
+            <li><Link className={col} to='/contact'>Contact Us</Link></li>
+          </ul></nav>
+        <div><h4 className='mb-2 font-display text-xl uppercase text-ashe-yellow'>Contact</h4>
+          <ul className='grid gap-1.5 text-[15px]'>
+            <li><a className={col} href={SITE.phoneHref}>{SITE.phone}</a></li>
+            <li><a className={col} href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li className='opacity-80'>{SITE.address}</li>
+          </ul></div>
+      </div>
+      <div className='my-8 font-display text-[clamp(70px,20vw,240px)] uppercase leading-[.9] text-ashe-yellow' aria-label={FOOTER.cta.join(' ')}>
         {FOOTER.cta.map((w, k) => (
           <div key={w} aria-hidden='true'>
             {[...w].map((c, i) => (
@@ -31,7 +57,10 @@ export default function Footer() {
           </div>
         ))}
       </div>
-      <small className='opacity-75'>{FOOTER.copy}</small>
+      <div className='flex flex-wrap items-center justify-between gap-2 text-sm opacity-80'>
+        <small>{FOOTER.copy}</small>
+        <span className='flex gap-4'><Link to='/privacy' className='underline'>Privacy Policy</Link><Link to='/terms' className='underline'>Terms of Use</Link></span>
+      </div>
     </footer>
   );
 }
