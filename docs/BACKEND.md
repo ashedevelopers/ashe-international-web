@@ -1,36 +1,46 @@
-# Backend port status (PHP/MySQL to Cloudflare Pages Functions + D1)
+# Backend status (PHP/MySQL to Cloudflare Pages Functions + D1)
 
 ## Cloudflare resources
-- D1 `ashe-db` (EEUR), 15 tables from `migrations/0001_init.sql`.
-- KV `ASHE_KV`, bound as `KV`.
+- D1 `ashe-db` (EEUR): 16 tables from `migrations/0001_init.sql` and `0002_leads.sql`.
+- KV `ASHE_KV`, bound as `KV` (rate limits).
 - R2: pending (enable R2 in the dashboard, then uncomment the `UPLOADS` binding in `wrangler.toml`). Upload routes return 503 until then.
+- Live: `https://ashe-international-web.pages.dev` (Pages project, auto-deploys from `main`).
 
-## Ported (all legacy modules except Pesapal)
-| Legacy module | New route | Notes |
+## Ported and live
+| Area | Routes | Notes |
 |---|---|---|
-| auth.php | `/api/auth/*` | JWT HS256 (same format), HttpOnly cookie plus bearer token, KV rate limits |
-| roles.php | `/api/roles`, `/api/roles/:id` | Last-admin protection kept |
-| projects.php | `/api/projects`, `/:id`, `/slug/:slug` | Visibility rules, owner edit limits, admin notification on submission |
-| donations.php | `/api/donations`, `/:id` | Public feed hides emails and anonymous names; completion is idempotent and atomic |
-| content.php | `/api/content`, `/:key` | Admin/designer upsert |
-| notifications.php | `/api/notifications`, `/:id/read` | Admin only |
-| withdrawals.php | `/api/withdrawals`, `/:id` | Owner request, admin/finance review |
-| extras.php | `/api/users`, `/api/project_sponsors`, `/api/project_milestones`, `/api/project_payouts`, `/api/proxy_receivers`, `/sitemap.xml` | Ownership checks in `_lib/ownership.js` |
-| misc.php | `/api/settings`, `/api/organizations`, `/api/bugs` | |
-| upload.php | `/api/upload`, `/api/files/:name`, `/uploads/:name` | R2; file type sniffed from magic bytes, not the browser MIME type |
-| (new) | `/api/admin/health` | Replaces the PHP environment check; `migrate.php` is replaced by `wrangler d1 migrations` |
+| Auth | `/api/auth/signin, signup, signout, session, reset-request, reset-confirm` | JWT HS256, HttpOnly cookie, KV rate limits, legacy bcrypt hashes upgraded to PBKDF2 on login |
+| Roles and users | `/api/roles`, `/api/users` | Last-admin protection |
+| Campaigns | `/api/projects`, `/:id`, `/slug/:slug` | Visibility rules, owner edit limits, admin notification on submission |
+| Donations | `/api/donations`, `/:id`, `/api/me/donations` | Public feed hides emails and anonymous names; completion is idempotent and atomic |
+| Payments (Nylon Pay) | `/api/pay/start`, `/api/pay/status`, `/api/pay/webhook` | See below |
+| Leads | `/api/submit`, `/api/leads` | Pledges, volunteers, partner inquiries; D1 plus Google Sheet sync |
+| Content, notifications, withdrawals, settings, organizations, bugs | `/api/content`, `/notifications`, `/withdrawals`, `/settings`, `/organizations`, `/bugs` | |
+| Campaign extras | `/api/project_sponsors`, `/project_milestones`, `/project_payouts`, `/proxy_receivers` | Ownership checks in `_lib/ownership.js` |
+| Files | `/api/upload`, `/api/files/:name`, `/uploads/:name` | R2; type sniffed from magic bytes |
+| Utilities | `/sitemap.xml`, `/api/health`, `/api/admin/health` | Health reports yes/no only, never secret values |
 
-## Still to port
-- Pesapal checkout and IPN callback (waiting for keys; the donation helpers it needs already exist).
+## Payments: Nylon Pay (replaces the old Pesapal plan)
+Pesapal is not used. Mobile money (MTN, Airtel) is collected with the official `@nile-squad/nylonpay-ts` SDK.
+
+1. `POST /api/pay/start` validates input, saves a pending donation, stores a 14-character reference in `donations.tracking_id` (`payment_provider = 'nylonpay'`) and calls `collectPayment`.
+2. The donation page polls `GET /api/pay/status?reference=...`.
+3. `POST /api/pay/webhook` verifies `x-nylon-signature` on the raw body with `NYLONPAY_WEBHOOK_SECRET`, then re-checks the payment with Nylon Pay.
+4. In every path the money is only counted after Nylon Pay's own `getStatus` says it succeeded (`_lib/nylon.js` `syncByReference`), and completion is idempotent.
+
+Secrets (Pages > Settings > Variables and Secrets): `NYLONPAY_API_KEY`, `NYLONPAY_API_SECRET`, `NYLONPAY_WEBHOOK_SECRET` (a separate credential from the API secret). Use sandbox keys first.
+Webhook URL to set in the Nylon Pay dashboard: `https://<domain>/api/pay/webhook`. Leave the IP whitelist empty (Workers have no fixed egress IPs).
+Cards are not collected on the site; Nylon Pay supports cards only through hosted invoices (`createInvoice`, needs an approved account), which is a possible later addition.
+Bank/International gifts stay as pledges: they are saved as leads and bank details are sent to the donor.
+
+## Still to do
+- Verify the Nylon Pay flow end to end with one sandbox payment (the webhook body and status words were not fully visible in public docs; `syncByReference` accepts the usual ones).
+- Enable R2, set `GOOGLE_SERVICE_ACCOUNT_JSON` for the sheet sync and a mail provider key (`RESEND_API_KEY`).
+- Add a balance check to withdrawals and protect payout bank details before real money moves.
+- Migrate legacy MySQL data, then DNS cutover for `asheinternational.org` (copy MX, SPF and DKIM records first).
 
 ## Decisions
-- Existing bcrypt password hashes keep working: they are verified with bcryptjs at sign-in and silently upgraded to PBKDF2. bcrypt at cost 12 is CPU-heavy, so the Workers Paid plan is recommended.
-- Reset tokens are stored hashed (SHA-256), unlike the legacy API.
-- Email is provider-pluggable (`functions/_lib/mail.js`); no provider is configured yet.
+- Existing bcrypt hashes keep working (bcryptjs at sign-in, then upgraded). bcrypt at cost 12 is CPU-heavy, so the Workers Paid plan is recommended.
+- Reset tokens are stored hashed (SHA-256).
+- Email is provider-pluggable (`functions/_lib/mail.js`); none configured yet.
 - Money columns are REAL for parity; consider integer minor units before finance reporting.
-- Withdrawals keep legacy behavior (no check against available balance). Add before launch.
-- Payout bank details are stored as plain text like the legacy site. Consider field-level encryption before launch.
-- Small fixes vs legacy: org flags parse "false" correctly, bug severity is validated, resolving a bug also sets its status.
-
-## Not yet tested
-Code has not been executed against a live Pages deployment. Run `npm install && npm run cf:dev` and hit `/api/health`, `/api/auth/signup` and `/api/projects` to verify.
