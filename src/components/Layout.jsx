@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { animate, motion, scroll, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, animate, motion, scroll, useScroll, useSpring } from 'framer-motion';
 import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 import DonateModal from './DonateModal.jsx';
@@ -17,7 +17,17 @@ function ScrollTop() {
     f(); window.addEventListener('scroll', f, { passive: true });
     return () => window.removeEventListener('scroll', f);
   }, []);
-  return on ? <button aria-label='Back to top' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className='fixed bottom-4 right-4 z-30 grid h-12 w-12 place-items-center rounded-full border-2 border-ashe-yellow bg-ashe-ink text-lg text-white shadow-lg'>↑</button> : null;
+  return (
+    <AnimatePresence>
+      {on && (
+        <motion.button aria-label='Back to top' onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className='fixed bottom-4 right-4 z-30 grid h-12 w-12 place-items-center rounded-full border-2 border-ashe-yellow bg-ashe-ink text-lg text-white shadow-lg'
+          initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 90 }} whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.92 }}>
+          <motion.span animate={{ y: [0, -3, 0] }} transition={{ duration: 1.6, repeat: Infinity }}>↑</motion.span>
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
 }
 
 // Thin yellow reading-progress bar at the very top of the page.
@@ -27,8 +37,7 @@ function Progress() {
   return <motion.div aria-hidden='true' style={{ scaleX }} className='fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-ashe-yellow' />;
 }
 
-// Scroll-scrubbed motion for every section title on the page: each h2 slides in and fades up as you scroll it into view,
-// and moves back if you scroll up. It follows your finger, so it is visible on every device.
+// Scroll-scrubbed motion for every section title: each h2 slides in from alternating sides and fades up as you scroll it into view.
 function useScrollMotion() {
   useEffect(() => {
     const stops = [];
