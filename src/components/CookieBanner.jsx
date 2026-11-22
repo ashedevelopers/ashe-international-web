@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const KEY = 'ashe_cookie_choice';
-const read = () => { try { return localStorage.getItem(KEY); } catch { return 'x'; } };
 
+// Starts hidden so the server HTML and the first browser render match; shows after load if no choice was saved yet.
 export default function CookieBanner() {
-  const [shown, setShown] = useState(() => !read());
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    try { if (!localStorage.getItem(KEY)) setShown(true); } catch { /* storage blocked: stay hidden */ }
+  }, []);
   const choose = (v) => { try { localStorage.setItem(KEY, v); } catch { /* ignore */ } setShown(false); };
   if (!shown) return null;
   return (
