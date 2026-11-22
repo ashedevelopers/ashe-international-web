@@ -14,12 +14,20 @@ const SLIDES = [
   { tag: 'Featured Campaign', title: "Let's build a center for Nakivale's refugee women", text: 'A campaign to build a center for refugee women in Nakivale Refugee Settlement, Uganda.', image: 'outreach', alt: 'ASHE team meeting women in Nakivale' },
 ];
 
-// Round ASHE logo (the circular mark): the wide logo image cropped to its left square inside a circle.
+// Round ASHE logo: the circular mark from the wide logo image, measured and centred inside the gold border.
+// (logo.png is 900x316; the emblem sits at x 17-307, y 38-263; scaled so its corners clear the circle.)
 function RoundLogo({ className = '' }) {
   return (
-    <motion.div className={`overflow-hidden rounded-full border-[3px] border-ashe-yellow bg-white shadow-lg ${className}`} animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
-      <img src='/images/logo.png' alt='ASHE logo' className='h-full w-full object-cover object-left'
-        onError={(e) => { if (!e.currentTarget.dataset.fb) { e.currentTarget.dataset.fb = '1'; e.currentTarget.src = LIVE_LOGO; } }} />
+    <motion.div className={`relative overflow-hidden rounded-full border-[3px] border-ashe-yellow bg-white shadow-lg ${className}`} animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
+      <img src='/images/logo.png' alt='ASHE logo' draggable={false}
+        style={{ position: 'absolute', width: '219.9%', height: 'auto', maxWidth: 'none', left: '10.42%', top: '13.11%' }}
+        onError={(e) => {
+          const el = e.currentTarget;
+          if (el.dataset.fb) return;
+          el.dataset.fb = '1';
+          el.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain';
+          el.src = LIVE_LOGO;
+        }} />
     </motion.div>
   );
 }
@@ -53,8 +61,9 @@ export default function Hero({ onDonate }) {
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-b from-ashe-deep/10 to-ashe-deep/85' />
 
       <RoundLogo className='absolute right-4 top-4 z-10 h-24 w-24 md:right-8 md:top-7 md:h-36 md:w-36' />
-      <motion.div className='absolute right-4 top-[132px] z-10 rotate-[4deg] rounded-2xl bg-white px-3.5 py-2.5 font-display text-3xl leading-none text-ashe-ink md:right-12 md:top-[196px] md:text-5xl'
-        initial={{ scale: 0, rotate: -12 }} animate={{ scale: 1, rotate: 4 }} transition={{ delay: 1, type: 'spring', stiffness: 220, damping: 14 }}>
+      {/* Stat chip lives in the top-left corner so it never covers the slide text */}
+      <motion.div className='pointer-events-none absolute left-4 top-4 z-10 -rotate-[4deg] rounded-2xl bg-white px-3.5 py-2.5 font-display text-3xl leading-none text-ashe-ink md:left-8 md:top-7 md:text-5xl'
+        initial={{ scale: 0, rotate: 12 }} animate={{ scale: 1, rotate: -4 }} transition={{ delay: 1, type: 'spring', stiffness: 220, damping: 14 }}>
         {HERO.chip.value}<small className='mt-1 block font-sans text-[11px] font-bold uppercase tracking-wider'>{HERO.chip.label}</small>
       </motion.div>
 
