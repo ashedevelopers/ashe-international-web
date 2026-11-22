@@ -3,16 +3,18 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { useAuth } from '../lib/auth.jsx';
 import { Button } from '../components/ui.jsx';
+import Logo from '../components/Logo.jsx';
 import { inp, lbl } from './kit.jsx';
 
 function Shell({ title, children, foot }) {
   return (
     <main className='grid min-h-screen place-items-center bg-ashe-mint/50 p-4'>
-      <div className='w-full max-w-md rounded-[28px] border-2 border-ashe-ink bg-ashe-cream p-6 md:p-8'>
-        <Link to='/' className='mb-2 block font-display text-2xl uppercase text-ashe-green'>← ASHE</Link>
+      <div className='w-full max-w-md rounded-[28px] border-2 border-ashe-ink bg-white p-6 md:p-8'>
+        <Link to='/' aria-label='ASHE home' className='mb-4 inline-block'><Logo className='h-14' /></Link>
         <h1 className='mb-2 text-5xl'>{title}</h1>
         {children}
         <p className='mt-5 text-sm'>{foot}</p>
+        <p className='mt-3 text-sm'><Link to='/' className='font-bold text-ashe-green underline'>← Back to the website</Link></p>
       </div>
     </main>
   );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth.jsx';
 import { Button } from '../components/ui.jsx';
+import Logo from '../components/Logo.jsx';
 import { TABS } from './tabs.jsx';
 
 export default function Dashboard() {
@@ -13,8 +14,8 @@ export default function Dashboard() {
   const cur = tabs.find((t) => t.id === id) || tabs[0];
   return (
     <div className='min-h-screen'>
-      <header className='flex items-center justify-between border-b border-black/10 px-4 py-3 md:px-9'>
-        <Link to='/' className='font-display text-2xl uppercase'>ASHE</Link>
+      <header className='flex items-center justify-between border-b border-black/10 px-4 py-2 md:px-9'>
+        <Link to='/' aria-label='ASHE home'><Logo className='h-10' /></Link>
         <div className='flex items-center gap-3 text-sm'>
           <span className='hidden md:inline'>{user.display_name || user.email} ({user.roles.join(', ')})</span>
           <Button tone='yellow' icon='↳' onClick={signout}>Sign out</Button>
