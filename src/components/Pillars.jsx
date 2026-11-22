@@ -8,7 +8,7 @@ const PILLARS = [
   { t: 'Long-term impact', d: 'Skills and entrepreneurship help families earn an income and reach financial independence.', tone: 'bg-ashe-yellow', r: -3 },
 ];
 
-// Three tilted pillar cards that straighten as they scroll into view.
+// Three tilted pillar cards that straighten as they scroll into view. The sparkle icons turn slowly all the time.
 export default function Pillars() {
   const forced = useForceIn();
   return (
@@ -19,7 +19,7 @@ export default function Pillars() {
           <motion.article key={p.t} className={`flex min-h-[300px] flex-col items-center justify-center rounded-[28px] border-2 border-ashe-ink p-6 text-center ${p.tone}`}
             initial={{ rotate: p.r * 2, y: 50, opacity: 0 }} whileInView={{ rotate: p.r, y: 0, opacity: 1 }} animate={forced ? { rotate: p.r, y: 0, opacity: 1 } : undefined}
             viewport={{ once: true, amount: 0.3 }} whileHover={{ rotate: 0, y: -6 }} transition={{ type: 'spring', stiffness: 90, damping: 14, delay: i * 0.08 }}>
-            <Sparkle className='h-16 w-16' />
+            <Sparkle className='h-16 w-16 animate-spin-slow' />
             <h3 className='mt-4 text-[34px]'>{p.t}</h3>
             <p className='mt-2 text-[15px]'>{p.d}</p>
           </motion.article>

@@ -15,13 +15,14 @@ const SLIDES = [
 ];
 
 // Round ASHE logo. The outer div does the positioning; the inner circle clips the logo.
-// (logo.png is 900x316; the emblem sits at x 17-307, y 38-263; scaled and offset so it is centred inside the border.)
+// logo.png is 900x316 and the emblem sits at x 17-307, y 38-263. The numbers below centre that emblem in the circle
+// at 130% of the earlier size (the neighbouring wordmark falls outside the circle and is clipped).
 function RoundLogo({ className = '' }) {
   return (
     <div className={className}>
       <motion.div className='relative h-full w-full overflow-hidden rounded-full border-[3px] border-ashe-yellow bg-white shadow-lg' animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
         <img src='/images/logo.png' alt='ASHE logo' draggable={false}
-          style={{ position: 'absolute', width: '219.9%', height: 'auto', maxWidth: 'none', left: '10.42%', top: '13.11%' }}
+          style={{ position: 'absolute', width: '285.9%', height: 'auto', maxWidth: 'none', left: '-1.45%', top: '2.04%' }}
           onError={(e) => {
             const el = e.currentTarget;
             if (el.dataset.fb) return;

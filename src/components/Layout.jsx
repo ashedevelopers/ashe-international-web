@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { animate, motion, scroll, useScroll, useSpring } from 'framer-motion';
 import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 import DonateModal from './DonateModal.jsx';
@@ -27,9 +27,26 @@ function Progress() {
   return <motion.div aria-hidden='true' style={{ scaleX }} className='fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-ashe-yellow' />;
 }
 
+// Scroll-scrubbed motion for every section title on the page: each h2 slides in and fades up as you scroll it into view,
+// and moves back if you scroll up. It follows your finger, so it is visible on every device.
+function useScrollMotion() {
+  useEffect(() => {
+    const stops = [];
+    const t = setTimeout(() => {
+      try {
+        document.querySelectorAll('main h2').forEach((el, n) => {
+          stops.push(scroll(animate(el, { opacity: [0, 1], x: [n % 2 ? 80 : -80, 0] }, { ease: 'easeOut' }), { target: el, offset: ['start end', 'start 70%'] }));
+        });
+      } catch (e) { console.warn('Scroll motion unavailable', e); }
+    }, 500);
+    return () => { clearTimeout(t); stops.forEach((s) => { try { s(); } catch { /* ignore */ } }); };
+  }, []);
+}
+
 // Shared shell for every public page: navbar, footer, donate modal, cookie notice, per-page title, page-enter animation.
 export default function Layout({ title, description, children }) {
   usePageMeta(title, description);
+  useScrollMotion();
   const [open, setOpen] = useState(false);
   const [project, setProject] = useState(null);
   const show = useCallback((id) => { setProject(typeof id === 'string' ? id : null); setOpen(true); }, []);
