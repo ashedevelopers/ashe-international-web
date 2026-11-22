@@ -1,18 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
-import { animate, useInView } from 'framer-motion';
+import { animate, motion, useInView } from 'framer-motion';
 import { STATS, STORY } from '../data/asheContent.js';
 import { Img, Reveal, Sticker } from './ui.jsx';
 
+// While the number is on screen it counts up from 0 to its value, pops, and starts again every 3 seconds.
 function CountUp({ to, plus }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { amount: 0.6 });
   const [n, setN] = useState(0);
+  const [cycle, setCycle] = useState(0);
+
   useEffect(() => {
     if (!inView) return;
-    const c = animate(0, to, { duration: 1.4, ease: [0.16, 1, 0.3, 1], onUpdate: (v) => setN(Math.round(v)) });
+    setCycle((c) => c + 1);
+    const id = setInterval(() => setCycle((c) => c + 1), 3000);
+    return () => clearInterval(id);
+  }, [inView]);
+
+  useEffect(() => {
+    if (!cycle) return;
+    const c = animate(0, to, { duration: 1.8, ease: [0.16, 1, 0.3, 1], onUpdate: (v) => setN(Math.round(v)) });
     return () => c.stop();
-  }, [inView, to]);
-  return <span ref={ref}>{n.toLocaleString()}{plus && to > 10 ? '+' : ''}</span>;
+  }, [cycle, to]);
+
+  return (
+    <span ref={ref} className='inline-block'>
+      <motion.span key={cycle} className='inline-block origin-left' initial={{ scale: 1.12 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 12 }}>
+        {n.toLocaleString()}{plus && to > 10 ? '+' : ''}
+      </motion.span>
+    </span>
+  );
 }
 
 export default function HighlightStrip() {
