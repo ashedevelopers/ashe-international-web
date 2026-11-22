@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
 import Campaign from './pages/Campaign.jsx';
+import MotionTest from './pages/MotionTest.jsx';
 import { Login, Reset, Signup } from './pages/Auth.jsx';
 import { About, Contact, GalleryPage, PartnersPage, ProgramsPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
 import { Privacy, Terms } from './pages/Legal.jsx';
@@ -15,7 +16,7 @@ const NotFound = () => (
   </main>
 );
 
-// reducedMotion='never': the brand animations always play. Parallax-style effects (scroll skew, spinning badge) still switch off for people who ask for reduced motion.
+// reducedMotion='never': the brand animations always play, whatever the device's Reduce Motion setting says.
 export default function App() {
   return (
     <MotionConfig reducedMotion='never'>
@@ -33,6 +34,7 @@ export default function App() {
           <Route path='/start-fundraiser' element={<StartFundraiser />} />
           <Route path='/privacy' element={<Privacy />} />
           <Route path='/terms' element={<Terms />} />
+          <Route path='/motion-test' element={<MotionTest />} />
           <Route path='/auth' element={<Login />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
