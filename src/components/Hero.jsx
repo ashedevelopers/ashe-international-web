@@ -14,21 +14,23 @@ const SLIDES = [
   { tag: 'Featured Campaign', title: "Let's build a center for Nakivale's refugee women", text: 'A campaign to build a center for refugee women in Nakivale Refugee Settlement, Uganda.', image: 'outreach', alt: 'ASHE team meeting women in Nakivale' },
 ];
 
-// Round ASHE logo: the circular mark from the wide logo image, measured and centred inside the gold border.
-// (logo.png is 900x316; the emblem sits at x 17-307, y 38-263; scaled so its corners clear the circle.)
+// Round ASHE logo. The outer div does the positioning; the inner circle clips the logo.
+// (logo.png is 900x316; the emblem sits at x 17-307, y 38-263; scaled and offset so it is centred inside the border.)
 function RoundLogo({ className = '' }) {
   return (
-    <motion.div className={`relative overflow-hidden rounded-full border-[3px] border-ashe-yellow bg-white shadow-lg ${className}`} animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
-      <img src='/images/logo.png' alt='ASHE logo' draggable={false}
-        style={{ position: 'absolute', width: '219.9%', height: 'auto', maxWidth: 'none', left: '10.42%', top: '13.11%' }}
-        onError={(e) => {
-          const el = e.currentTarget;
-          if (el.dataset.fb) return;
-          el.dataset.fb = '1';
-          el.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain';
-          el.src = LIVE_LOGO;
-        }} />
-    </motion.div>
+    <div className={className}>
+      <motion.div className='relative h-full w-full overflow-hidden rounded-full border-[3px] border-ashe-yellow bg-white shadow-lg' animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
+        <img src='/images/logo.png' alt='ASHE logo' draggable={false}
+          style={{ position: 'absolute', width: '219.9%', height: 'auto', maxWidth: 'none', left: '10.42%', top: '13.11%' }}
+          onError={(e) => {
+            const el = e.currentTarget;
+            if (el.dataset.fb) return;
+            el.dataset.fb = '1';
+            el.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain';
+            el.src = LIVE_LOGO;
+          }} />
+      </motion.div>
+    </div>
   );
 }
 
@@ -60,8 +62,8 @@ export default function Hero({ onDonate }) {
       </motion.div>
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-b from-ashe-deep/10 to-ashe-deep/85' />
 
+      {/* Logo top-right, stat chip top-left: neither covers the slide text at the bottom */}
       <RoundLogo className='absolute right-4 top-4 z-10 h-24 w-24 md:right-8 md:top-7 md:h-36 md:w-36' />
-      {/* Stat chip lives in the top-left corner so it never covers the slide text */}
       <motion.div className='pointer-events-none absolute left-4 top-4 z-10 -rotate-[4deg] rounded-2xl bg-white px-3.5 py-2.5 font-display text-3xl leading-none text-ashe-ink md:left-8 md:top-7 md:text-5xl'
         initial={{ scale: 0, rotate: 12 }} animate={{ scale: 1, rotate: -4 }} transition={{ delay: 1, type: 'spring', stiffness: 220, damping: 14 }}>
         {HERO.chip.value}<small className='mt-1 block font-sans text-[11px] font-bold uppercase tracking-wider'>{HERO.chip.label}</small>
@@ -71,8 +73,8 @@ export default function Hero({ onDonate }) {
         <AnimatePresence mode='wait'>
           <motion.div key={i} className='max-w-4xl' initial='hidden' animate='show' exit='out'
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } }, out: { opacity: 0, y: -16, transition: { duration: 0.3 } } }}>
-            <motion.div variants={{ hidden: { opacity: 0, x: -30, rotate: -8 }, show: { opacity: 1, x: 0, rotate: -4 } }}><Sticker rotate={-4}>{s.tag}</Sticker></motion.div>
-            <motion.h1 className='mt-3.5 text-[clamp(38px,9.5vw,104px)]' variants={{ hidden: { opacity: 0, y: 60 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] } } }}>{s.title}</motion.h1>
+            <motion.div className='mb-2' variants={{ hidden: { opacity: 0, x: -30, rotate: -8 }, show: { opacity: 1, x: 0, rotate: -4 } }}><Sticker rotate={-4}>{s.tag}</Sticker></motion.div>
+            <motion.h1 className='mt-4 text-[clamp(38px,9.5vw,104px)]' variants={{ hidden: { opacity: 0, y: 60 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] } } }}>{s.title}</motion.h1>
             <motion.p className='my-4 max-w-lg opacity-90' variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 0.92, y: 0 } }}>{s.text}</motion.p>
             <motion.div className='flex flex-wrap gap-2.5' variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}>
               <Button tone='yellow' onClick={onDonate}>Donate now</Button>
@@ -82,17 +84,17 @@ export default function Hero({ onDonate }) {
         </AnimatePresence>
       </div>
 
-      <div className='absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between gap-4 md:left-12 md:right-12'>
-        <div className='flex items-center gap-2' role='tablist' aria-label='Choose slide'>
+      <div className='absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between gap-3 md:left-12 md:right-12'>
+        <div className='flex min-w-0 items-center gap-1.5 md:gap-2' role='tablist' aria-label='Choose slide'>
           {SLIDES.map((x, n) => (
-            <button key={x.tag} role='tab' aria-selected={n === i} aria-label={`Slide ${n + 1}: ${x.tag}`} onClick={() => go(n)} className='relative h-2.5 w-10 overflow-hidden rounded-full bg-white/35 md:w-14'>
+            <button key={x.tag} role='tab' aria-selected={n === i} aria-label={`Slide ${n + 1}: ${x.tag}`} onClick={() => go(n)} className='relative h-2.5 w-7 flex-none overflow-hidden rounded-full bg-white/35 md:w-14'>
               {n === i && <motion.span key={`${i}-${paused}`} className='absolute inset-y-0 left-0 bg-ashe-yellow' initial={{ width: paused ? '100%' : '0%' }} animate={{ width: '100%' }} transition={{ duration: paused ? 0 : DELAY / 1000, ease: 'linear' }} />}
               {n < i && <span className='absolute inset-0 bg-ashe-yellow' />}
             </button>
           ))}
-          <span className='ml-2 font-display text-lg tabular-nums'>{String(i + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}</span>
+          <span className='ml-1 flex-none whitespace-nowrap font-display text-base tabular-nums md:ml-2 md:text-lg'>{String(i + 1).padStart(2, '0')}/{String(SLIDES.length).padStart(2, '0')}</span>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex flex-none gap-2'>
           {[['‹', 'Previous slide', -1], ['›', 'Next slide', 1]].map(([t, l, d]) => (
             <button key={l} aria-label={l} onClick={() => go(i + d)} className='grid h-11 w-11 place-items-center rounded-full border-2 border-white/80 bg-black/20 text-2xl backdrop-blur transition hover:bg-ashe-yellow hover:text-ashe-ink'>{t}</button>
           ))}
