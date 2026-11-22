@@ -1,22 +1,20 @@
 import React from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import './index.css';
 
-const tree = (
+// The prerendered HTML in each page is for search engines, link previews and fast first paint.
+// The browser then renders the app fresh (no hydration), so every animation starts from a clean state on every page load.
+const el = document.getElementById('root');
+el.replaceChildren();
+createRoot(el).render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>
 );
-
-// Pages that were rendered to HTML at build time are hydrated in place; any other address (for example /c/<slug>) renders normally.
-const el = document.getElementById('root');
-const here = window.location.pathname.replace(/\/+$/, '') || '/';
-if (window.__SSR_PATH__ === here && el.hasChildNodes()) hydrateRoot(el, tree);
-else createRoot(el).render(tree);
 
 // Every internal link is a real page load: the browser fetches that page's own HTML, and its entrance animations play from the start.
 document.addEventListener('click', (e) => {
