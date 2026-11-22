@@ -1,2 +1,0 @@
-# Cloudflare Pages: SPA fallback. /api/* is served first by Pages Functions (functions/api).
-/*    /index.html   200
