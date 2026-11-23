@@ -5,10 +5,13 @@ import { useAuth } from '../lib/auth.jsx';
 import { Button } from '../components/ui.jsx';
 import Logo from '../components/Logo.jsx';
 import { TABS } from './tabs.jsx';
+import ReportsTab from './ReportsTab.jsx';
+
+const ALL = [...TABS, { id: 'reports', label: 'Reports', roles: ['admin', 'designer'], C: ReportsTab }];
 
 export default function Dashboard() {
   const { user, has, signout } = useAuth();
-  const tabs = user ? TABS.filter((t) => has(...t.roles)) : [];
+  const tabs = user ? ALL.filter((t) => has(...t.roles)) : [];
   const [id, setId] = useState(null);
   if (user === undefined) return <p className='p-8'>Loading...</p>;
   if (!user) return <Navigate to='/login' replace />;

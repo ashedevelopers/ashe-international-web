@@ -4,6 +4,8 @@ import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 import DonateModal from './DonateModal.jsx';
 import CookieBanner from './CookieBanner.jsx';
+import { CampaignPopup, CampaignPreview } from './CampaignKit.jsx';
+import { CampaignCtx } from '../lib/campaign.js';
 import { usePageMeta } from '../lib/meta.js';
 
 const DonateCtx = createContext(() => {});
@@ -37,7 +39,7 @@ function Progress() {
   return <motion.div aria-hidden='true' style={{ scaleX }} className='fixed left-0 right-0 top-0 z-[60] h-1 origin-left bg-ashe-yellow' />;
 }
 
-// Scroll-scrubbed motion for every section title: each h2 slides in from alternating sides and fades up as you scroll it into view.
+// Scroll-scrubbed motion for every section title.
 function useScrollMotion() {
   useEffect(() => {
     const stops = [];
@@ -52,23 +54,30 @@ function useScrollMotion() {
   }, []);
 }
 
-// Shared shell for every public page: navbar, footer, donate modal, cookie notice, per-page title, page-enter animation.
+// Shared shell for every public page: navbar, footer, donate modal, campaign preview and 40-second pop-up, cookie notice.
 export default function Layout({ title, description, children }) {
   usePageMeta(title, description);
   useScrollMotion();
   const [open, setOpen] = useState(false);
   const [project, setProject] = useState(null);
+  const [campaign, setCampaign] = useState(false);
   const show = useCallback((id) => { setProject(typeof id === 'string' ? id : null); setOpen(true); }, []);
   const hide = useCallback(() => setOpen(false), []);
+  const openCampaign = useCallback(() => setCampaign(true), []);
+  const closeCampaign = useCallback(() => setCampaign(false), []);
   return (
     <DonateCtx.Provider value={show}>
-      <Progress />
-      <Navbar onDonate={show} />
-      <motion.main initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: 'easeOut' }}>{children}</motion.main>
-      <Footer />
-      <DonateModal open={open} onClose={hide} projectId={project} />
-      <ScrollTop />
-      <CookieBanner />
+      <CampaignCtx.Provider value={openCampaign}>
+        <Progress />
+        <Navbar onDonate={show} />
+        <motion.main initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: 'easeOut' }}>{children}</motion.main>
+        <Footer />
+        <DonateModal open={open} onClose={hide} projectId={project} />
+        <CampaignPreview open={campaign} onClose={closeCampaign} />
+        <CampaignPopup />
+        <ScrollTop />
+        <CookieBanner />
+      </CampaignCtx.Provider>
     </DonateCtx.Provider>
   );
 }

@@ -15,7 +15,7 @@ export const SITE = {
 
 export const PAGES = [
   { to: '/', l: 'Home' }, { to: '/about', l: 'About Us' }, { to: '/programs', l: 'Programs' }, { to: '/projects', l: 'Projects' },
-  { to: '/partners', l: 'Partners' }, { to: '/volunteer', l: 'Volunteer' }, { to: '/gallery', l: 'Gallery' }, { to: '/contact', l: 'Contact' },
+  { to: '/reports', l: 'Reports' }, { to: '/partners', l: 'Partners' }, { to: '/volunteer', l: 'Volunteer' }, { to: '/gallery', l: 'Gallery' }, { to: '/contact', l: 'Contact' },
 ];
 
 export const TEAM = [
@@ -49,3 +49,13 @@ export const FUNDRAISER_FEATURES = [
 ];
 
 export const FEATURED = { title: "Let's build a center for Nakivale's refugee women", place: 'Nakivale Refugee Settlement, Uganda', image: 'outreach' };
+
+// The current campaign. Donations for it are taken on Zeffy; this link is used ONLY for this campaign.
+export const CAMPAIGN = {
+  title: "Let's build a center for Nakivale's refugee women",
+  place: 'Nakivale Refugee Settlement, Uganda',
+  short: 'Help build a center for refugee women in Nakivale.',
+  description: 'ASHE is raising funds to build a center for refugee women in Nakivale Refugee Settlement, Isingiro District, Uganda. Women and youth are at the centre of every ASHE programme, and this center will give women a dedicated place to gather, learn and grow together.',
+  image: 'outreach',
+  url: 'https://www.zeffy.com/fr-CA/donation-form/construisons-un-centre-pour-les-femmes-refugiees-de-nakivale',
+};

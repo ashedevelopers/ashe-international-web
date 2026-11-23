@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
+import Reports from './pages/Reports.jsx';
 import Campaign from './pages/Campaign.jsx';
 import MotionTest from './pages/MotionTest.jsx';
 import { Login, Reset, Signup } from './pages/Auth.jsx';
@@ -27,6 +28,7 @@ export default function App() {
           <Route path='/about' element={<About />} />
           <Route path='/programs' element={<ProgramsPage />} />
           <Route path='/projects' element={<Projects />} />
+          <Route path='/reports' element={<Reports />} />
           <Route path='/c/:slug' element={<Campaign />} />
           <Route path='/partners' element={<PartnersPage />} />
           <Route path='/volunteer' element={<Volunteer />} />

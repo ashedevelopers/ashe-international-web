@@ -1,4 +1,4 @@
-const STATIC = { '/': 1.0, '/about': 0.8, '/programs': 0.8, '/projects': 0.9, '/donate': 0.9, '/partners': 0.6, '/volunteer': 0.6, '/gallery': 0.5, '/contact': 0.6, '/start-fundraiser': 0.7, '/privacy': 0.2, '/terms': 0.2 };
+const STATIC = { '/': 1.0, '/about': 0.8, '/programs': 0.8, '/projects': 0.9, '/reports': 0.7, '/partners': 0.6, '/volunteer': 0.6, '/gallery': 0.5, '/contact': 0.6, '/start-fundraiser': 0.7, '/privacy': 0.2, '/terms': 0.2 };
 const esc = (s) => String(s).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]));
 
 // GET /sitemap.xml: static pages + live campaigns + donor organizations.

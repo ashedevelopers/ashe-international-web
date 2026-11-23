@@ -9,16 +9,19 @@ import Programs from '../components/Programs.jsx';
 import ImpactGallery from '../components/ImpactGallery.jsx';
 import Partners from '../components/Partners.jsx';
 import FAQ from '../components/FAQ.jsx';
+import { CampaignSpotlight } from '../components/CampaignKit.jsx';
+import { ReportsSection } from '../components/ReportKit.jsx';
 import { CtaBand } from '../components/Footer.jsx';
 import { Sticker } from '../components/ui.jsx';
 
-// Photo-led home. "What makes ASHE different" (Pillars) and "Community impact" (clay gallery band) use the newer card design.
+// Home: hero, ticker, current campaign, story, motto, pillars, focus areas, values, gallery, annual reports, partners, FAQ, call to action.
 function HomeBody() {
   const donate = useDonate();
   return (
     <>
       <Hero onDonate={donate} />
       <KineticTicker />
+      <CampaignSpotlight />
       <HighlightStrip />
       <MottoBand />
       <Pillars />
@@ -28,6 +31,7 @@ function HomeBody() {
         <Sticker rotate={6} className='absolute right-4 top-3'>Gallery</Sticker>
         <ImpactGallery />
       </div>
+      <ReportsSection />
       <Partners />
       <FAQ />
       <CtaBand onDonate={donate} />
