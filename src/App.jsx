@@ -2,12 +2,13 @@ import { MotionConfig } from 'framer-motion';
 import { Link, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './lib/auth.jsx';
 import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
 import Campaign from './pages/Campaign.jsx';
 import MotionTest from './pages/MotionTest.jsx';
 import { Login, Reset, Signup } from './pages/Auth.jsx';
-import { About, Contact, GalleryPage, PartnersPage, ProgramsPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
+import { Contact, GalleryPage, PartnersPage, ProgramsPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
 import { Privacy, Terms } from './pages/Legal.jsx';
 
 const NotFound = () => (

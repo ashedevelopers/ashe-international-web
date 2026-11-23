@@ -1,4 +1,4 @@
-// Single source of truth for page copy. Facts here come from the live site; edit freely, keep claims accurate.
+// Single source of truth for page copy. Mission, vision, values and focus areas come from ASHE's official statement.
 export const NAV = [
   { label: 'About', href: '#story' },
   { label: 'Programs', href: '#programs' },
@@ -9,29 +9,33 @@ export const NAV = [
 export const HERO = {
   tag: 'Nakivale, Uganda',
   lines: ['Rooted in', 'Nakivale.', 'Growing together.'],
-  body: 'ASHE empowers refugees and host communities with skills, farming and enterprise, so families can stand on their own.',
+  body: 'We equip refugees, displaced people and marginalised groups, especially youth and women, with the skills, resources and opportunities to feed their families, earn an income and lead their own recovery.',
   chip: { value: '1,500+', label: 'people impacted' },
 };
 
-export const TICKER = ['Mushroom farming', 'Computer skills', 'Entrepreneurship', 'Climate resilience', 'Sewing training', 'Permaculture', 'Nakivale'];
+export const TICKER = ['Agriculture & food security', 'Climate action', 'Livelihoods', 'Tailoring & vocational skills', 'Digital skills', 'Family & community support', 'WASH', 'Self-reliance'];
 
 export const STORY = {
   tag: 'Who we are',
   title: 'Action for Save Humanity in Emergency',
-  body: 'We work side by side with refugees and their Ugandan neighbours in Nakivale Refugee Settlement, Isingiro District, turning training and shared land into lasting livelihoods.',
+  body: 'We equip refugees, displaced people and marginalised groups, especially youth and women, with the skills, resources and opportunities to feed their families, earn an income and lead their own recovery.',
 };
 
 export const STATS = [
   { value: 1500, plus: true, label: 'People impacted', tone: 'bg-ashe-yellow' },
   { value: 12, plus: true, label: 'Volunteer staff', tone: 'bg-ashe-mint' },
-  { value: 4, plus: false, label: 'Core programs', tone: 'bg-ashe-clay' },
+  { value: 7, plus: false, label: 'Focus areas', tone: 'bg-ashe-clay' },
 ];
 
+// The seven focus areas. Youth and women are at the centre of every programme.
 export const PROGRAMS = [
-  { icon: 'mushroom', image: 'farm', title: 'Vocational & Mushroom Cultivation', text: 'Hands-on training that turns a small harvest into steady income.' },
-  { icon: 'computer', image: 'digital', title: 'Digital & Computer Skills', text: 'Practical computer classes that open doors to work and learning.' },
-  { icon: 'market', image: 'market', title: 'Entrepreneurship & Market Access', text: 'Business workshops and market links for refugee and host entrepreneurs.' },
-  { icon: 'climate', image: 'trees', title: 'Climate Resilience', text: 'Tree planting and permaculture that protect land and livelihoods.' },
+  { icon: 'mushroom', image: 'farm', title: 'Agriculture & Food Security', text: 'Farming training and land access.' },
+  { icon: 'climate', image: 'trees', title: 'Environment & Climate Action', text: 'Tree planting and clean energy.' },
+  { icon: 'market', image: 'market', title: 'Entrepreneurship & Livelihoods', text: 'Start-up support, savings groups and mentoring.' },
+  { icon: 'tailoring', image: 'community', title: 'Tailoring & Vocational Skills', text: 'Marketable trades.' },
+  { icon: 'computer', image: 'digital', title: 'Education & Digital Skills', text: 'Adult literacy and computer training.' },
+  { icon: 'family', image: 'homevisit', title: 'Family & Community Support', text: 'Psychosocial care for at-risk youth, adolescent girls and single mothers.' },
+  { icon: 'water', image: 'irrigation', title: 'Water, Sanitation & Hygiene (WASH)', text: 'Menstrual hygiene and harvest water.' },
 ];
 
 // image = file name (without extension) in public/images. Replace or extend with more field photos.
