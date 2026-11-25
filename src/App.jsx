@@ -9,9 +9,10 @@ import Projects from './pages/Projects.jsx';
 import Reports from './pages/Reports.jsx';
 import Campaign from './pages/Campaign.jsx';
 import ProgramsPage from './pages/ProgramsPage.jsx';
+import PartnersPage from './pages/PartnersPage.jsx';
 import MotionTest from './pages/MotionTest.jsx';
 import { Login, Reset, Signup } from './pages/Auth.jsx';
-import { Contact, GalleryPage, PartnersPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
+import { Contact, GalleryPage, StartFundraiser, Volunteer } from './pages/Pages.jsx';
 import { Privacy, Terms } from './pages/Legal.jsx';
 
 const NotFound = () => (
