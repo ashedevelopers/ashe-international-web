@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /api/
+Disallow: /motion-test
+
+Sitemap: https://asheinternational.org/sitemap.xml

@@ -1,22 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { HERO } from '../data/asheContent.js';
+import { useCampaign } from '../lib/campaign.js';
 import { Button, Img, Sticker } from './ui.jsx';
 
 const LIVE_LOGO = 'https://asheinternational.org/assets/ashe-logo-YTZ5ZteW.jpeg';
 const DELAY = 6500;
 
-// Slide content follows the hero slider on asheinternational.org (sewing, permaculture, mushrooms, women's center campaign).
+// Slides use real photos and figures from ASHE's 2026 Annual Report; the last one opens the current campaign.
 const SLIDES = [
-  { tag: 'Sewing Training', title: 'Sewing Machine Training and Learning', text: 'Vocational skills that turn into sustainable livelihoods for refugees and host communities.', image: 'community', alt: 'Community members handling fabric during sewing training in Nakivale' },
-  { tag: 'Permaculture', title: 'Resilient Roots: Empowering Refugees through Permaculture', text: 'Sustainable agriculture and reforestation that protect the land and feed families in Nakivale.', image: 'irrigation', alt: 'Irrigating crops in Nakivale' },
-  { tag: 'Mushroom Cultivation', title: 'Harvesting Hope: Empowering Refugees through Mushroom Cultivation', text: 'Reliable nutrition and a pathway to financial independence, grown inside the settlement.', image: 'market', alt: 'Handing over fresh produce to families' },
-  { tag: 'Featured Campaign', title: "Let's build a center for Nakivale's refugee women", text: 'A campaign to build a center for refugee women in Nakivale Refugee Settlement, Uganda.', image: 'outreach', alt: 'ASHE team meeting women in Nakivale' },
+  { tag: 'Kitchen Gardens', title: 'Zero-land farming: kitchen gardens that feed families', text: '90 household gardens established in 2026: container gardens of kale, beet and cabbage.', image: 'field/kitchen-garden', alt: 'A field officer tending a kitchen garden' },
+  { tag: 'Reforestation', title: 'Trees today, shade and food tomorrow', text: '2,500 seedlings raised and distributed to 120 households and 3 schools in 2026.', image: 'field/reforestation', alt: 'Families receiving tree seedlings' },
+  { tag: 'Livelihoods', title: 'Goats that multiply: one gift, many families', text: '50 goats to 5 groups on a pass-on model: each group shares offspring with other households.', image: 'field/goats', alt: 'A group with the goats they received' },
+  { tag: 'Featured Campaign', title: "Let's build a center for Nakivale's refugee women", text: 'A campaign to build a center for refugee women in Nakivale Refugee Settlement, Uganda.', image: 'outreach', alt: 'ASHE team meeting women in Nakivale', campaign: true },
 ];
 
 // Round ASHE logo. The outer div does the positioning; the inner circle clips the logo.
-// logo.png is 900x316 and the emblem sits at x 17-307, y 38-263. The numbers below centre that emblem in the circle
-// at 130% of the earlier size (the neighbouring wordmark falls outside the circle and is clipped).
+// logo.png is 900x316 and the emblem sits at x 17-307, y 38-263; these numbers centre it inside the border.
 function RoundLogo({ className = '' }) {
   return (
     <div className={className}>
@@ -37,6 +37,7 @@ function RoundLogo({ className = '' }) {
 
 export default function Hero({ onDonate }) {
   const ref = useRef(null);
+  const openCampaign = useCampaign();
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
@@ -63,7 +64,6 @@ export default function Hero({ onDonate }) {
       </motion.div>
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-b from-ashe-deep/10 to-ashe-deep/85' />
 
-      {/* Logo top-right, stat chip top-left: neither covers the slide text at the bottom */}
       <RoundLogo className='absolute right-4 top-4 z-10 h-24 w-24 md:right-8 md:top-7 md:h-36 md:w-36' />
       <motion.div className='pointer-events-none absolute left-4 top-4 z-10 -rotate-[4deg] rounded-2xl bg-white px-3.5 py-2.5 font-display text-3xl leading-none text-ashe-ink md:left-8 md:top-7 md:text-5xl'
         initial={{ scale: 0, rotate: 12 }} animate={{ scale: 1, rotate: -4 }} transition={{ delay: 1, type: 'spring', stiffness: 220, damping: 14 }}>
@@ -78,8 +78,17 @@ export default function Hero({ onDonate }) {
             <motion.h1 className='mt-4 text-[clamp(38px,9.5vw,104px)]' variants={{ hidden: { opacity: 0, y: 60 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.2, 0.8, 0.2, 1] } } }}>{s.title}</motion.h1>
             <motion.p className='my-4 max-w-lg opacity-90' variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 0.92, y: 0 } }}>{s.text}</motion.p>
             <motion.div className='flex flex-wrap gap-2.5' variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}>
-              <Button tone='yellow' onClick={onDonate}>Donate now</Button>
-              <Button as='a' tone='white' href='#programs' icon='↓'>Our programs</Button>
+              {s.campaign ? (
+                <>
+                  <Button tone='yellow' onClick={() => openCampaign()}>Preview &amp; donate</Button>
+                  <Button as='a' tone='white' href='/projects' icon='→'>See projects</Button>
+                </>
+              ) : (
+                <>
+                  <Button tone='yellow' onClick={onDonate}>Donate now</Button>
+                  <Button as='a' tone='white' href='#programs' icon='↓'>Our programs</Button>
+                </>
+              )}
             </motion.div>
           </motion.div>
         </AnimatePresence>

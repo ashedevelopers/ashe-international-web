@@ -8,4 +8,8 @@
   h1, h2, h3 { @apply font-display font-normal uppercase leading-[.95]; }
 }
 
-/* Motion is part of the brand and plays on every device: no prefers-reduced-motion override is applied. */
+/* Motion plays on every device by default. Visitors who want less can press "Pause motion" (bottom-left), which also stops the CSS animations here. */
+html.motion-paused *, html.motion-paused *::before, html.motion-paused *::after {
+  animation: none !important;
+  scroll-behavior: auto !important;
+}

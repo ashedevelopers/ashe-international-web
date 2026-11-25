@@ -1,4 +1,5 @@
-// Single source of truth for page copy. Mission, vision, values and focus areas come from ASHE's official statement.
+// Single source of truth for page copy. Mission, vision, values and focus areas come from ASHE's official statement;
+// photos and captions in the gallery come from the 2025 and 2026 reports.
 export const NAV = [
   { label: 'About', href: '#story' },
   { label: 'Programs', href: '#programs' },
@@ -10,7 +11,7 @@ export const HERO = {
   tag: 'Nakivale, Uganda',
   lines: ['Rooted in', 'Nakivale.', 'Growing together.'],
   body: 'We equip refugees, displaced people and marginalised groups, especially youth and women, with the skills, resources and opportunities to feed their families, earn an income and lead their own recovery.',
-  chip: { value: '1,500+', label: 'people impacted' },
+  chip: { value: '1,500+', label: 'served since founding' },
 };
 
 export const TICKER = ['Agriculture & food security', 'Climate action', 'Livelihoods', 'Tailoring & vocational skills', 'Digital skills', 'Family & community support', 'WASH', 'Self-reliance'];
@@ -22,35 +23,41 @@ export const STORY = {
 };
 
 export const STATS = [
-  { value: 1500, plus: true, label: 'People impacted', tone: 'bg-ashe-yellow' },
+  { value: 1500, plus: true, label: 'People served since founding', tone: 'bg-ashe-yellow' },
   { value: 12, plus: true, label: 'Volunteer staff', tone: 'bg-ashe-mint' },
   { value: 7, plus: false, label: 'Focus areas', tone: 'bg-ashe-clay' },
 ];
 
-// The seven focus areas. Youth and women are at the centre of every programme.
+// The seven focus areas. Youth and women are at the centre of every programme. image = file in public/images (without .jpg).
 export const PROGRAMS = [
-  { icon: 'mushroom', image: 'farm', title: 'Agriculture & Food Security', text: 'Farming training and land access.' },
-  { icon: 'climate', image: 'trees', title: 'Environment & Climate Action', text: 'Tree planting and clean energy.' },
-  { icon: 'market', image: 'market', title: 'Entrepreneurship & Livelihoods', text: 'Start-up support, savings groups and mentoring.' },
+  { icon: 'mushroom', image: 'field/market-garden', title: 'Agriculture & Food Security', text: 'Farming training and land access.' },
+  { icon: 'climate', image: 'field/reforestation', title: 'Environment & Climate Action', text: 'Tree planting and clean energy.' },
+  { icon: 'market', image: 'field/goats', title: 'Entrepreneurship & Livelihoods', text: 'Start-up support, savings groups and mentoring.' },
   { icon: 'tailoring', image: 'community', title: 'Tailoring & Vocational Skills', text: 'Marketable trades.' },
-  { icon: 'computer', image: 'digital', title: 'Education & Digital Skills', text: 'Adult literacy and computer training.' },
+  { icon: 'computer', image: 'field/youth-digital', title: 'Education & Digital Skills', text: 'Adult literacy and computer training.' },
   { icon: 'family', image: 'homevisit', title: 'Family & Community Support', text: 'Psychosocial care for at-risk youth, adolescent girls and single mothers.' },
-  { icon: 'water', image: 'irrigation', title: 'Water, Sanitation & Hygiene (WASH)', text: 'Menstrual hygiene and harvest water.' },
+  { icon: 'water', image: 'field/irrigation-2025', title: 'Water, Sanitation & Hygiene (WASH)', text: 'Menstrual hygiene and harvest water.' },
 ];
 
-// image = file name (without extension) in public/images. Replace or extend with more field photos.
+// Real field photos with captions taken from the 2025 and 2026 reports.
 export const GALLERY = [
-  { image: 'community', cat: 'Community', caption: 'Gathering in the settlement' },
-  { image: 'digital', cat: 'Digital', caption: 'Computer skills session' },
-  { image: 'farm', cat: 'Farming', caption: 'Training in the fields' },
-  { image: 'team', cat: 'Community', caption: 'The ASHE field team' },
-  { image: 'trees', cat: 'Climate', caption: 'Tree planting' },
-  { image: 'market', cat: 'Livelihoods', caption: 'Fresh produce handover' },
-  { image: 'irrigation', cat: 'Farming', caption: 'Irrigating the crops' },
-  { image: 'families', cat: 'Community', caption: 'Families we serve' },
-  { image: 'outreach', cat: 'Community', caption: 'Outreach and registration' },
-  { image: 'homevisit', cat: 'Community', caption: 'Home visit' },
-  { image: 'fields', cat: 'Climate', caption: 'Working the land' },
+  { image: 'field/kitchen-garden', cat: 'Farming', caption: 'Kitchen gardens: container beds of kale, beet and cabbage' },
+  { image: 'field/market-garden', cat: 'Farming', caption: 'Sustainable agriculture and market gardening' },
+  { image: 'field/sack-gardens', cat: 'Farming', caption: 'Sack and ring gardens built from recycled materials' },
+  { image: 'field/harvest-women', cat: 'Farming', caption: 'Group members showing their harvest' },
+  { image: 'field/irrigation-2025', cat: 'Farming', caption: 'Staff and farmers irrigating a field plot' },
+  { image: 'field/goats', cat: 'Livelihoods', caption: 'Goat pass-on: 50 goats to 5 groups' },
+  { image: 'field/poultry', cat: 'Livelihoods', caption: 'Poultry, goats and small animal husbandry' },
+  { image: 'field/poultry-distribution', cat: 'Livelihoods', caption: 'Tagged hens go to women\'s group members' },
+  { image: 'field/reforestation', cat: 'Climate', caption: 'Families receive fruit and shade seedlings' },
+  { image: 'field/seedling-nursery', cat: 'Climate', caption: 'Field officers manage the seedling nursery' },
+  { image: 'field/school-tree-planting', cat: 'Climate', caption: 'A young participant plants a tree seedling at school' },
+  { image: 'field/youth-planting', cat: 'Climate', caption: 'Youth volunteers planting tree seedlings' },
+  { image: 'field/youth-digital', cat: 'Digital', caption: 'Hands-on laptop training for young people' },
+  { image: 'field/staff-training', cat: 'Training', caption: 'Staff training with InnovYeng Entrepreneuriat Féminin' },
+  { image: 'field/team-certificates', cat: 'Training', caption: 'The ASHE team receives certificates' },
+  { image: 'field/community-distribution', cat: 'Community', caption: 'A community distribution event' },
+  { image: 'field/village-gathering', cat: 'Community', caption: 'Community gathering in the settlement' },
 ];
 
 // Fallback: if /images/<name>.jpg is missing, the live site's copy is used.
