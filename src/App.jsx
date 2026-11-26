@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { Link, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './lib/auth.jsx';
@@ -21,16 +20,10 @@ const NotFound = () => (
   </main>
 );
 
-const KEY = 'ashe_motion';
-
-// Motion is on by default on every device. The small button bottom-left lets a visitor pause it (for comfort, or to save battery).
+// reducedMotion='never': the brand animations always play, whatever the device's Reduce Motion setting says.
 export default function App() {
-  const [paused, setPaused] = useState(false);
-  useEffect(() => { try { if (localStorage.getItem(KEY) === 'paused') setPaused(true); } catch { /* ignore */ } }, []);
-  useEffect(() => { document.documentElement.classList.toggle('motion-paused', paused); }, [paused]);
-  const toggle = () => setPaused((p) => { const n = !p; try { localStorage.setItem(KEY, n ? 'paused' : 'on'); } catch { /* ignore */ } return n; });
   return (
-    <MotionConfig reducedMotion={paused ? 'always' : 'never'}>
+    <MotionConfig reducedMotion='never'>
       <AuthProvider>
         <Routes>
           <Route path='/' element={<Home />} />
@@ -55,9 +48,6 @@ export default function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </AuthProvider>
-      <button type='button' onClick={toggle} aria-pressed={paused} className='fixed bottom-3 left-3 z-[55] rounded-full border border-ashe-ink/30 bg-white/90 px-3 py-1.5 text-[11px] font-bold shadow backdrop-blur'>
-        {paused ? '▶ Play motion' : '⏸ Pause motion'}
-      </button>
     </MotionConfig>
   );
 }
