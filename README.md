@@ -1,4 +1,5 @@
 # ASHE International Web Platform
+Built and maintained by Emmanuel Gabriel Ndayambaje, IT officer at ASHE.
 
 Production web platform for **ASHE (Action For Save Humanity Emergency)**, a humanitarian nonprofit empowering refugees and host communities in Nakivale Refugee Settlement, Isingiro District, Uganda.
 
