@@ -77,7 +77,10 @@ export default function Footer() {
           ))}
         </div>
         <div className='flex flex-wrap items-center justify-between gap-2 text-sm opacity-80'>
-          <small>{FOOTER.copy}</small>
+          <div className='grid gap-1'>
+            <small>{FOOTER.copy}</small>
+            <small>Made by <a href='https://wa.me/256771039063' target='_blank' rel='noopener noreferrer' className='underline hover:text-ashe-yellow'>Emmanuel Gabriel Ndayambaje</a></small>
+          </div>
           <span className='flex gap-4'><Link to='/privacy' className='underline'>Privacy Policy</Link><Link to='/terms' className='underline'>Terms of Use</Link></span>
         </div>
       </footer>
