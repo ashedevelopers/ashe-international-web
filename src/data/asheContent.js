@@ -39,20 +39,20 @@ export const PROGRAMS = [
   { icon: 'water', image: 'field/irrigation-2025', title: 'Water, Sanitation & Hygiene (WASH)', text: 'Menstrual hygiene and harvest water.' },
 ];
 
-// Real field photos with captions taken from the 2025 and 2026 reports.
+// Real field photos. The first six titles were set by ASHE (photos unchanged); the rest keep their report captions.
 export const GALLERY = [
-  { image: 'field/kitchen-garden', cat: 'Farming', caption: 'Kitchen gardens: container beds of kale, beet and cabbage' },
+  { image: 'field/seedling-nursery', cat: 'Farming', caption: 'Nursery Bed' },
+  { image: 'field/youth-planting', cat: 'Climate', caption: 'Land Restoration' },
+  { image: 'field/poultry', cat: 'Livelihoods', caption: 'poultry' },
+  { image: 'field/poultry-distribution', cat: 'Livelihoods', caption: 'Chicken distribution' },
+  { image: 'field/kitchen-garden', cat: 'Farming', caption: 'Kitchen gardens' },
+  { image: 'field/goats', cat: 'Livelihoods', caption: 'Goat Pass-On' },
   { image: 'field/market-garden', cat: 'Farming', caption: 'Sustainable agriculture and market gardening' },
   { image: 'field/sack-gardens', cat: 'Farming', caption: 'Sack and ring gardens built from recycled materials' },
   { image: 'field/harvest-women', cat: 'Farming', caption: 'Group members showing their harvest' },
   { image: 'field/irrigation-2025', cat: 'Farming', caption: 'Staff and farmers irrigating a field plot' },
-  { image: 'field/goats', cat: 'Livelihoods', caption: 'Goat pass-on: 50 goats to 5 groups' },
-  { image: 'field/poultry', cat: 'Livelihoods', caption: 'Poultry, goats and small animal husbandry' },
-  { image: 'field/poultry-distribution', cat: 'Livelihoods', caption: 'Tagged hens go to women\'s group members' },
   { image: 'field/reforestation', cat: 'Climate', caption: 'Families receive fruit and shade seedlings' },
-  { image: 'field/seedling-nursery', cat: 'Climate', caption: 'Field officers manage the seedling nursery' },
   { image: 'field/school-tree-planting', cat: 'Climate', caption: 'A young participant plants a tree seedling at school' },
-  { image: 'field/youth-planting', cat: 'Climate', caption: 'Youth volunteers planting tree seedlings' },
   { image: 'field/youth-digital', cat: 'Digital', caption: 'Hands-on laptop training for young people' },
   { image: 'field/staff-training', cat: 'Training', caption: 'Staff training with InnovYeng Entrepreneuriat Féminin' },
   { image: 'field/team-certificates', cat: 'Training', caption: 'The ASHE team receives certificates' },
