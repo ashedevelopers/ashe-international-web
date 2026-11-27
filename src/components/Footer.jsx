@@ -38,8 +38,8 @@ export default function Footer() {
     <>
       <FloatingShapes />
       <footer className='rounded-t-[32px] bg-ashe-deep px-5 pb-6 pt-9 text-white md:px-12 md:pt-14'>
-        <Stagger className='grid gap-8 md:grid-cols-4'>
-          <Item>
+        <Stagger className='grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 md:gap-8'>
+          <Item className='col-span-2 md:col-span-1'>
             <Link to='/' aria-label='ASHE home' className='inline-block rounded-2xl bg-white p-3 transition hover:scale-105'>
               <img src='/images/logo.png' alt='ASHE: Action For Save Humanity in Emergency' className='h-12 w-auto md:h-14'
                 onError={(e) => { if (!e.currentTarget.dataset.fb) { e.currentTarget.dataset.fb = '1'; e.currentTarget.src = LIVE_LOGO; } }} />
@@ -58,7 +58,7 @@ export default function Footer() {
               <li><Link className={col} to='/partners'>Become a Partner</Link></li>
               <li><Link className={col} to='/contact'>Contact Us</Link></li>
             </ul></nav></Item>
-          <Item><h4 className='mb-2 font-display text-xl uppercase text-ashe-yellow'>Contact</h4>
+          <Item className='col-span-2 md:col-span-1'><h4 className='mb-2 font-display text-xl uppercase text-ashe-yellow'>Contact</h4>
             <ul className='grid gap-1.5 text-[15px]'>
               <li><a className={col} href={SITE.phoneHref}>{SITE.phone}</a></li>
               <li><a className={col} href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
