@@ -26,8 +26,7 @@ migrations_dir = "migrations"
 binding = "KV"
 id = "41c7a42ff772485d997bb140ea18c490"
 
-# R2 storage for uploads (enable R2 in the dashboard first)
-# Create:  wrangler r2 bucket create ashe-uploads
-# [[r2_buckets]]
-# binding = "UPLOADS"
-# bucket_name = "ashe-uploads"
+# R2 storage for uploads (bucket ashe-uploads, created Nov 27 2026)
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "ashe-uploads"
