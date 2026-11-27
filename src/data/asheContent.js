@@ -83,4 +83,4 @@ export const DONATE = {
   },
 };
 
-export const FOOTER = { cta: ['Grow', 'Together'], copy: '© 2022 - 2027 ASHE International. Action For Save Humanity in Emergency.' };
+export const FOOTER = { cta: ['Grow', 'Together'], copy: '© 2024 - 2027 ASHE International. Action For Save Humanity in Emergency.' };
