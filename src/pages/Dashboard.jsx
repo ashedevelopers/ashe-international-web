@@ -6,8 +6,10 @@ import { Button } from '../components/ui.jsx';
 import Logo from '../components/Logo.jsx';
 import { TABS } from './tabs.jsx';
 import ReportsTab from './ReportsTab.jsx';
+import ContentEditor from './ContentEditor.jsx';
 
-const ALL = [...TABS, { id: 'reports', label: 'Reports', roles: ['admin', 'designer'], C: ReportsTab }];
+// "Site content" uses the form editor; the old raw-JSON editor stays available inside it under "advanced".
+const ALL = [...TABS.map((t) => (t.id === 'content' ? { ...t, C: ContentEditor } : t)), { id: 'reports', label: 'Reports', roles: ['admin', 'designer'], C: ReportsTab }];
 
 export default function Dashboard() {
   const { user, has, signout } = useAuth();

@@ -1,17 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { animate, motion, useInView } from 'framer-motion';
+import { GLANCE } from '../data/home.js';
 import { Button, Reveal, Sticker } from './ui.jsx';
-
-// Figures are taken from the 2026 Annual Report (programme-area outputs and participant profile).
-const NUMS = [
-  { v: 213, l: 'People reached', n: 'across 7 villages in Nakivale', tone: 'bg-ashe-yellow' },
-  { v: 2500, l: 'Seedlings raised', n: 'distributed to 120 households and 3 schools', tone: 'bg-ashe-mint' },
-  { v: 90, l: 'Household gardens', n: 'kitchen gardens established', tone: 'bg-[#B9DDF2]' },
-  { v: 50, l: 'Goats', n: 'to 5 groups on a pass-on model', tone: 'bg-ashe-clay' },
-  { v: 100, l: 'Birds', n: 'to 40 households', tone: 'bg-[#A8E6B5]' },
-  { v: 30, l: 'Youth trained', n: 'in digital skills', tone: 'bg-ashe-yellow' },
-];
 
 // Counts up from 0 once, the first time it scrolls into view, then stays still.
 function CountUp({ to }) {
@@ -30,18 +21,19 @@ function CountUp({ to }) {
   );
 }
 
+// Text and numbers come from src/data/home.js (editable in Dashboard > Site content).
 export default function YearGlance() {
   return (
     <section className='mx-3.5 my-16 md:mx-7'>
       <div className='mb-8 text-center'>
-        <Sticker rotate={-4}>From our Annual Report</Sticker>
-        <h2 className='mt-3 text-[clamp(40px,8vw,92px)]'>2026 at a glance</h2>
-        <p className='mx-auto mt-3 max-w-xl'>Participant profile: 65% women, 35% host-community members, 25% youth under 25.</p>
+        <Sticker rotate={-4}>{GLANCE.tag}</Sticker>
+        <h2 className='mt-3 text-[clamp(40px,8vw,92px)]'>{GLANCE.title}</h2>
+        <p className='mx-auto mt-3 max-w-xl'>{GLANCE.profile}</p>
       </div>
       <div className='mx-auto grid max-w-6xl grid-cols-2 gap-3 lg:grid-cols-3'>
-        {NUMS.map((s, i) => (
-          <Reveal key={s.l} i={i % 3} className={`h-full rounded-3xl border-2 border-ashe-ink p-5 ${s.tone}`}>
-            <div className='font-display text-6xl leading-none md:text-7xl'><CountUp to={s.v} /></div>
+        {GLANCE.items.map((s, i) => (
+          <Reveal key={`${s.l}-${i}`} i={i % 3} className={`h-full rounded-3xl border-2 border-ashe-ink p-5 ${s.tone}`}>
+            <div className='font-display text-6xl leading-none md:text-7xl'><CountUp to={Number(s.v) || 0} /></div>
             <p className='mt-2 text-lg font-bold'>{s.l}</p>
             <p className='text-sm'>{s.n}</p>
           </Reveal>

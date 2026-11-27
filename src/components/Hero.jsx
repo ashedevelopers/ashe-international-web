@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { HERO } from '../data/asheContent.js';
+import { HERO_SLIDES as SLIDES } from '../data/home.js';
 import { useCampaign } from '../lib/campaign.js';
 import { Button, Img, Sticker } from './ui.jsx';
 
 const LIVE_LOGO = 'https://asheinternational.org/assets/ashe-logo-YTZ5ZteW.jpeg';
 const DELAY = 6500;
 
-// Slides use real photos and figures from ASHE's 2026 Annual Report; the last one opens the current campaign.
-const SLIDES = [
-  { tag: 'Kitchen Gardens', title: 'Zero-land farming: kitchen gardens that feed families', text: '90 household gardens established in 2026: container gardens of kale, beet and cabbage.', image: 'field/kitchen-garden', alt: 'A field officer tending a kitchen garden' },
-  { tag: 'Reforestation', title: 'Trees today, shade and food tomorrow', text: '2,500 seedlings raised and distributed to 120 households and 3 schools in 2026.', image: 'field/reforestation', alt: 'Families receiving tree seedlings' },
-  { tag: 'Livelihoods', title: 'Goats that multiply: one gift, many families', text: '50 goats to 5 groups on a pass-on model: each group shares offspring with other households.', image: 'field/goats', alt: 'A group with the goats they received' },
-  { tag: 'Featured Campaign', title: "Let's build a center for Nakivale's refugee women", text: 'A campaign to build a center for refugee women in Nakivale Refugee Settlement, Uganda.', image: 'outreach', alt: 'ASHE team meeting women in Nakivale', campaign: true },
-];
+// The slides (text, photos, campaign slide) live in src/data/home.js and are editable in Dashboard > Site content.
 
 // Round ASHE logo. The outer div does the positioning; the inner circle clips the logo.
 // logo.png is 900x316 and the emblem sits at x 17-307, y 38-263; these numbers centre it inside the border.
@@ -50,14 +45,14 @@ export default function Hero({ onDonate }) {
     return () => clearTimeout(t);
   }, [i, paused, go]);
 
-  const s = SLIDES[i];
+  const s = SLIDES[i] || SLIDES[0];
   return (
     <section ref={ref} id='top' className='relative mx-3.5 mt-3 min-h-[640px] overflow-hidden rounded-[32px] text-white md:mx-7 md:min-h-[740px]'
       onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onTouchStart={() => setPaused(true)} onTouchEnd={() => setPaused(false)} aria-roledescription='carousel' aria-label='ASHE highlights'>
       <motion.div style={{ y, touchAction: 'pan-y' }} className='absolute inset-0 scale-110' drag='x' dragConstraints={{ left: 0, right: 0 }} dragElastic={0.15}
         onDragEnd={(_, info) => { if (info.offset.x < -60) go(i + 1); else if (info.offset.x > 60) go(i - 1); }}>
         <AnimatePresence initial={false}>
-          <motion.div key={s.image} className='absolute inset-0' initial={{ opacity: 0, scale: 1.12 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2, ease: 'easeOut' }}>
+          <motion.div key={`${i}-${s.image}`} className='absolute inset-0' initial={{ opacity: 0, scale: 1.12 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2, ease: 'easeOut' }}>
             <Img name={s.image} alt={s.alt} className='h-full w-full object-cover' loading='eager' fetchpriority={i === 0 ? 'high' : 'auto'} draggable={false} />
           </motion.div>
         </AnimatePresence>
@@ -97,7 +92,7 @@ export default function Hero({ onDonate }) {
       <div className='absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between gap-3 md:left-12 md:right-12'>
         <div className='flex min-w-0 items-center gap-1.5 md:gap-2' role='tablist' aria-label='Choose slide'>
           {SLIDES.map((x, n) => (
-            <button key={x.tag} role='tab' aria-selected={n === i} aria-label={`Slide ${n + 1}: ${x.tag}`} onClick={() => go(n)} className='relative h-2.5 w-7 flex-none overflow-hidden rounded-full bg-white/35 md:w-14'>
+            <button key={`${x.tag}-${n}`} role='tab' aria-selected={n === i} aria-label={`Slide ${n + 1}: ${x.tag}`} onClick={() => go(n)} className='relative h-2.5 w-7 flex-none overflow-hidden rounded-full bg-white/35 md:w-14'>
               {n === i && <motion.span key={`${i}-${paused}`} className='absolute inset-y-0 left-0 bg-ashe-yellow' initial={{ width: paused ? '100%' : '0%' }} animate={{ width: '100%' }} transition={{ duration: paused ? 0 : DELAY / 1000, ease: 'linear' }} />}
               {n < i && <span className='absolute inset-0 bg-ashe-yellow' />}
             </button>

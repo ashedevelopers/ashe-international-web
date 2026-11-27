@@ -2,14 +2,16 @@ import { motion } from 'framer-motion';
 import { IMG_LIVE } from '../data/asheContent.js';
 import { useForceIn } from '../lib/motion.js';
 
-// Local file first (/images/<name>.jpg), then the live site's copy, then a stand-in photo so a missing file never shows a broken icon.
+// name can be a photo name (/images/<name>.jpg) or a full link / uploaded file (/uploads/...).
+// Local file first, then the live site's copy, then a stand-in photo so a missing file never shows a broken icon.
 export function Img({ name, alt = '', className = '', ...rest }) {
+  const direct = typeof name === 'string' && (/^(https?:)?\/\//.test(name) || name.startsWith('/'));
   return (
     <img
-      src={`/images/${name}.jpg`} alt={alt} loading='lazy' decoding='async' className={className}
+      src={direct ? name : `/images/${name}.jpg`} alt={alt} loading='lazy' decoding='async' className={className}
       onError={(e) => {
         const el = e.currentTarget;
-        const f = IMG_LIVE[name];
+        const f = direct ? null : IMG_LIVE[name];
         if (!el.dataset.fb) { el.dataset.fb = '1'; if (f) { el.src = `https://asheinternational.org/assets/${f}`; return; } }
         if (!el.dataset.fb2) { el.dataset.fb2 = '1'; el.src = '/images/community.jpg'; }
       }}
